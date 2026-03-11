@@ -1,0 +1,12 @@
+# Python
+.env
+__pycache__/
+*.pyc
+
+# dbt
+logs/
+target/
+dbt_packages/
+
+# Docker
+*.log
