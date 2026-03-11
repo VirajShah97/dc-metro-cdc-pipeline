@@ -1,0 +1,14 @@
+{
+    "name": "metro-postgres-connector",
+    "config": {
+      "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+      "database.hostname": "postgres",
+      "database.port": "5432",
+      "database.user": "metro_user",
+      "database.password": "metro_password",
+      "database.dbname": "metro_db",
+      "topic.prefix": "metro",
+      "table.include.list": "public.train_predictions",
+      "plugin.name": "pgoutput"
+    }
+  }
