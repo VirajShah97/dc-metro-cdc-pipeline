@@ -10,3 +10,5 @@ CREATE TABLE train_predictions (
     minutes VARCHAR(20),
     ingested_at TIMESTAMP DEFAULT NOW()
 );
+
+ALTER TABLE train_predictions REPLICA IDENTITY FULL;
