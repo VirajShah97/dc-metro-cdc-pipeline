@@ -3,7 +3,7 @@ CREATE TABLE train_predictions (
     station_code VARCHAR(10),
     station_name VARCHAR(100),
     line_code VARCHAR(5),
-    car_count INTEGER,
+    car_count VARCHAR(10),
     destination_code VARCHAR(10),
     destination_name VARCHAR(100),
     platform_group INTEGER,
