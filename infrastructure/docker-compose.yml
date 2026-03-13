@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: metro_password
       POSTGRES_DB: metro_db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     command: ["postgres", "-c", "wal_level=logical"]
 
   zookeeper:
