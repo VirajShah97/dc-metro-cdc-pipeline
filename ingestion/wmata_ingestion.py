@@ -63,8 +63,8 @@ def _get_with_retries(url: str, headers: dict) -> dict:
 
 
 def fetch_predictions() -> list[dict]:
-    headers = {"api_key": WMATA_API_KEY}
-    data = _get_with_retries(WMATA_URL, headers)
+    headers = {}
+    data = _get_with_retries(f"{WMATA_URL}?api_key={WMATA_API_KEY}", headers)
     return data.get("Trains", [])
 
 
