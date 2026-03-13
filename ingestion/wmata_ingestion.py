@@ -14,7 +14,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 WMATA_API_KEY   = os.getenv("WMATA_API_KEY")
-WMATA_URL       = "https://api.wmata.com/StationPrediction.svc/json/GetPredictions/All"
+WMATA_URL       = "https://api.wmata.com/StationPrediction.svc/json/GetPrediction/All"
 POLL_INTERVAL   = int(os.getenv("POLL_INTERVAL", 30))
 MAX_RETRIES     = 4
 BASE_BACKOFF    = 2
