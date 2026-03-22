@@ -10,3 +10,5 @@ dbt_packages/
 
 # Docker
 *.log
+
+output/
