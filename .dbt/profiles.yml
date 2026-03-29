@@ -1,0 +1,13 @@
+dc_metro:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: IRKSCOJ-NUC97574
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: ACCOUNTADMIN
+      database: DC_METRO
+      warehouse: DC_METRO_WH
+      schema: RAW
+      threads: 4

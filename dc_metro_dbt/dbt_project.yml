@@ -1,0 +1,8 @@
+models:
+  dc_metro_dbt:
+    staging:
+      +materialized: view
+      +schema: STAGING
+    marts:
+      +materialized: table
+      +schema: MARTS
