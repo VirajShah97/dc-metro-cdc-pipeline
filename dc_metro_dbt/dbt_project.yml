@@ -1,3 +1,17 @@
+name: 'dc_metro_dbt'
+version: '1.0.0'
+profile: 'dc_metro'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+analysis-paths: ["analyses"]
+macro-paths: ["macros"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
 models:
   dc_metro_dbt:
     staging:
