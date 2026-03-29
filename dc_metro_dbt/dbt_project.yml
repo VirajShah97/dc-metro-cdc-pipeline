@@ -20,3 +20,13 @@ models:
     marts:
       +materialized: table
       +schema: MARTS
+
+seeds:
+  dc_metro_dbt:
+    dim_stations:
+      +column_types:
+        station_code: varchar(10)
+        station_name: varchar(100)
+        latitude: float
+        longitude: float
+      +quote_columns: true
