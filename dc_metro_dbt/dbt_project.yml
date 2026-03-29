@@ -1,6 +1,6 @@
 name: 'dc_metro_dbt'
 version: '1.0.0'
-profile: 'dc_metro'
+profile: 'dc_metro_dbt'
 
 model-paths: ["models"]
 seed-paths: ["seeds"]
