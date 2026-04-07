@@ -119,3 +119,50 @@ FROM TABLE(INFORMATION_SCHEMA.COPY_HISTORY(
     TABLE_NAME => 'DC_METRO.RAW.PREDICTIONS',
     START_TIME => DATEADD(HOUR, -24, CURRENT_TIMESTAMP())
 ));
+
+-- -----------------------------------------------------------------------------
+-- 9. Positions Table
+-- -----------------------------------------------------------------------------
+
+CREATE TABLE DC_METRO.RAW.POSITIONS (
+    RAW_DATA VARIANT,
+    LOADED_AT TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP()
+);
+
+-- -----------------------------------------------------------------------------
+-- 10. Positions Stage
+-- -----------------------------------------------------------------------------
+-- Reuses the same storage integration but points to raw/positions/ prefix.
+
+CREATE STAGE DC_METRO.RAW.S3_POSITIONS_STAGE
+    URL = 's3://<S3_BUCKET_NAME>/raw/positions/'
+    STORAGE_INTEGRATION = S3_METRO_INTEGRATION
+    FILE_FORMAT = DC_METRO.RAW.NDJSON_FORMAT;
+
+-- -----------------------------------------------------------------------------
+-- 11. Positions Snowpipe
+-- -----------------------------------------------------------------------------
+-- [ACTION REQUIRED] After creating the pipe:
+--   1. Run SHOW PIPES to get the notification_channel (SQS ARN) for POSITIONS_PIPE.
+--   2. In AWS S3 bucket properties, create a second event notification:
+--        Name:       metro-positions-snowpipe
+--        Prefix:     raw/positions/
+--        Event type: s3:ObjectCreated:*
+--        Destination: SQS queue (paste the ARN from SHOW PIPES)
+
+CREATE OR REPLACE PIPE DC_METRO.RAW.POSITIONS_PIPE
+    AUTO_INGEST = TRUE
+    AS
+    COPY INTO DC_METRO.RAW.POSITIONS (RAW_DATA)
+    FROM (SELECT $1 FROM @DC_METRO.RAW.S3_POSITIONS_STAGE/raw/positions/)
+    FILE_FORMAT = (TYPE = 'JSON', STRIP_OUTER_ARRAY = FALSE);
+
+-- Get SQS ARN for S3 event notification setup
+SHOW PIPES IN DC_METRO.RAW;
+
+-- Backfill files already in S3
+ALTER PIPE DC_METRO.RAW.POSITIONS_PIPE REFRESH;
+
+-- Verify
+SELECT SYSTEM$PIPE_STATUS('DC_METRO.RAW.POSITIONS_PIPE');
+SELECT COUNT(*) FROM DC_METRO.RAW.POSITIONS;
