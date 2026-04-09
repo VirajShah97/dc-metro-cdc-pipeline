@@ -25,3 +25,4 @@ parsed AS (
 
 SELECT * FROM parsed
 WHERE line_code NOT IN ('--', 'No')
+QUALIFY ROW_NUMBER() OVER (PARTITION BY prediction_id ORDER BY loaded_at DESC) = 1
