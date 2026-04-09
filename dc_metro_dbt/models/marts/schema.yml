@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: mart__predictions
+    description: >
+      Fact table with per-prediction volatility scoring. Each row is a single
+      WMATA train prediction with LAG-based volatility detection and time
+      period classification for rush hour analysis.
+    columns:
+      - name: prediction_id
+        description: Unique prediction identifier from source
+        tests:
+          - not_null
+      - name: station_code
+        description: WMATA station code
+        tests:
+          - not_null
+      - name: line_code
+        description: Metro line code (RD, BL, OR, SV, GR, YL)
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['RD', 'BL', 'OR', 'SV', 'GR', 'YL']
+      - name: minutes
+        description: Raw minutes field from WMATA (numeric string, ARR, or BRD)
+        tests:
+          - not_null
+      - name: ingested_at
+        description: Timestamp when the prediction was ingested (UTC)
+        tests:
+          - not_null
+      - name: ingested_at_local
+        description: Ingested timestamp converted to America/New_York
+        tests:
+          - not_null
+      - name: time_period
+        description: Classification of ingestion time into rush hour buckets
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Morning Rush', 'Evening Rush', 'Off-Peak']
+      - name: is_volatile
+        description: True when prediction minutes jumped back up vs prior reading
+        tests:
+          - not_null
