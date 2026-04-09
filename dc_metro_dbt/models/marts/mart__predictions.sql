@@ -24,7 +24,7 @@ WITH predictions AS (
             WHEN EXTRACT(HOUR FROM ingested_at) BETWEEN 16 AND 19 THEN 'Evening Rush'
             ELSE 'Off-Peak'
         END AS time_period
-    FROM {{ ref('stg_predictions') }}
+    FROM {{ ref('stg__predictions') }}
 ),
 
 with_volatility AS (
