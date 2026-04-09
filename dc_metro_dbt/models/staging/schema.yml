@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: stg__predictions
+    description: Parsed and typed predictions from raw VARIANT data. Filters out non-revenue trains.
+    columns:
+      - name: prediction_id
+        tests:
+          - not_null
+          - unique
+      - name: station_code
+        tests:
+          - not_null
+      - name: ingested_at
+        tests:
+          - not_null
