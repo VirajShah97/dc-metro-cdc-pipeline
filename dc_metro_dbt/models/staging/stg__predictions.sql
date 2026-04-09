@@ -24,3 +24,4 @@ parsed AS (
 )
 
 SELECT * FROM parsed
+WHERE raw_data:line_code::VARCHAR NOT IN ('--', 'No')
