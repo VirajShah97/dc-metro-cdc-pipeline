@@ -17,11 +17,12 @@ WITH predictions AS (
         anomaly_reasons,
         ingested_at,
         loaded_at,
-        EXTRACT(HOUR FROM ingested_at) AS hour_of_day,
-        DAYOFWEEK(ingested_at) AS day_of_week,
+        CONVERT_TIMEZONE('UTC', 'America/New_York', ingested_at) AS ingested_at_local,
+        EXTRACT(HOUR FROM CONVERT_TIMEZONE('UTC', 'America/New_York', ingested_at)) AS hour_of_day,
+        DAYOFWEEK(CONVERT_TIMEZONE('UTC', 'America/New_York', ingested_at)) AS day_of_week,
         CASE
-            WHEN EXTRACT(HOUR FROM ingested_at) BETWEEN 6 AND 9 THEN 'Morning Rush'
-            WHEN EXTRACT(HOUR FROM ingested_at) BETWEEN 16 AND 19 THEN 'Evening Rush'
+            WHEN EXTRACT(HOUR FROM CONVERT_TIMEZONE('UTC', 'America/New_York', ingested_at)) BETWEEN 6 AND 9 THEN 'Morning Rush'
+            WHEN EXTRACT(HOUR FROM CONVERT_TIMEZONE('UTC', 'America/New_York', ingested_at)) BETWEEN 16 AND 19 THEN 'Evening Rush'
             ELSE 'Off-Peak'
         END AS time_period
     FROM {{ ref('stg__predictions') }}
