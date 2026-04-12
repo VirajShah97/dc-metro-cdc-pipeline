@@ -12,3 +12,4 @@ dbt_packages/
 *.log
 
 output/
+.claude
